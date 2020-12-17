@@ -15,7 +15,9 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React.......
+          host: {window.location.host}
+          <br />
+          hostname: {window.location.hostname}
         </a>
       </header>
     </div>
