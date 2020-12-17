@@ -1,0 +1,29 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      - echo "Install all of dependencies.."
+      - npm install
+  pre_build:
+    commands:
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+  build:
+    commands:
+      - npm run build
+  post_build:
+    commands:
+      - AWS_ACCOUNT_ID="$(aws sts get-caller-identity --output text --query Account)"
+
+      - docker build . --tag $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-2.amazonaws.com/ecr-repo-test:latest
+
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecr-repo-test:latest
+
+      - |
+        printf '[{"name":"ecr-repo-test","imageUri":"%s"}]' \
+        $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecr-repo-test:latest > imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
