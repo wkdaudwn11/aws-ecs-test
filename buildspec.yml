@@ -16,13 +16,13 @@ phases:
     commands:
       - AWS_ACCOUNT_ID="$(aws sts get-caller-identity --output text --query Account)"
 
-      - docker build . --tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_ECR_REPO_NAME:latest
+      - docker build . --tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecs-repo-test:latest
 
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_ECR_REPO_NAME:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecs-repo-test:latest
 
       - |
-        printf '[{"name":"'$AWS_ECR_REPO_NAME'","imageUri":"%s"}]' \
-        $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_ECR_REPO_NAME:latest > imagedefinitions.json
+        printf '[{"name":"ecs-repo-test","imageUri":"%s"}]' \
+        $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecs-repo-test:latest > imagedefinitions.json
 
 artifacts:
   files:
