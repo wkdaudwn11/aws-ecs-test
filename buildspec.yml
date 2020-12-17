@@ -16,7 +16,7 @@ phases:
     commands:
       - AWS_ACCOUNT_ID="$(aws sts get-caller-identity --output text --query Account)"
 
-      - docker build . --tag $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-2.amazonaws.com/ecr-repo-test:latest
+      - docker build . --tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecr-repo-test:latest
 
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecr-repo-test:latest
 
