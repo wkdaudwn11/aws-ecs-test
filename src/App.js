@@ -19,7 +19,7 @@ function App() {
           <br />
           hostname: {window.location.hostname}
           <br />
-          deploy #1
+          deploy #2
         </a>
       </header>
     </div>
