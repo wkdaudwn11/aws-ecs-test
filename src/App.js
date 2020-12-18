@@ -18,6 +18,8 @@ function App() {
           host: {window.location.host}
           <br />
           hostname: {window.location.hostname}
+          <br />
+          deploy #1
         </a>
       </header>
     </div>
