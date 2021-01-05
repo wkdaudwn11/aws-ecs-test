@@ -12,7 +12,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          deploy #4
+          2020-01-05 배포 테스트 #1
         </a>
       </header>
     </div>
