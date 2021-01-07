@@ -4,27 +4,27 @@ phases:
     runtime-versions:
       nodejs: 12
     commands:
-      # - echo "Install yarn.."
-      # - npm install -g yarn
-      # - echo "Install all of dependencies.."
-      # - yarn install
+      - echo "Install yarn.."
+      - npm install -g yarn
+      - echo "Install all of dependencies.."
+      - yarn install
   pre_build:
     commands:
-      # - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
   build:
     commands:
-      # - yarn build
+      - yarn build
   post_build:
     commands:
-      # - AWS_ACCOUNT_ID="$(aws sts get-caller-identity --output text --query Account)"
+      - AWS_ACCOUNT_ID="$(aws sts get-caller-identity --output text --query Account)"
 
-      # - docker build . --tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecr-repo-test:latest
+      - docker build . --tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecr-repo-test:latest
 
-      # - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecr-repo-test:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecr-repo-test:latest
 
-      # - |
-      #   printf '[{"name":"ecr-repo-test","imageUri":"%s"}]' \
-      #   $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecr-repo-test:latest > imagedefinitions.json
+      - |
+        printf '[{"name":"ecr-repo-test","imageUri":"%s"}]' \
+        $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ecr-repo-test:latest > imagedefinitions.json
 
 artifacts:
   files:
