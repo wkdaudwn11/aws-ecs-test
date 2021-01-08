@@ -54,20 +54,18 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
 
-    steps:
-      strategy:
-        matrix:
-          node-version: [12.x]
+    strategy:
+      matrix:
+        node-version: [12.x]
 
-      steps:
-        - uses: actions/checkout@v2
-        - name: Use Node.js ${{ matrix.node-version }}
-          uses: actions/setup-node@v1
-          with:
-            node-version: ${{ matrix.node-version }}
-            wait-for-service-stability: true
-        - run: npm install
-        - run: npm run build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm run build
 
       - name: Checkout
         uses: actions/checkout@v2
