@@ -74,6 +74,7 @@ jobs:
           ECR_REGISTRY: 923518955386.dkr.ecr.ap-northeast-2.amazonaws.com
           ECR_REPOSITORY: ecr-repo-test
           IMAGE_TAG: latest
+        path: .
         run: |
           # Build a docker container and
           # push it to ECR so that it can
