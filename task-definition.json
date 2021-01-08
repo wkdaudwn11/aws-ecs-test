@@ -53,7 +53,7 @@
   "memory": "512",
   "taskRoleArn": null,
   "compatibilities": ["EC2"],
-  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:923518955386:task-definition/ecs-td-develop:13",
+  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:923518955386:task-definition/ecs-td-develop:latest",
   "family": "ecs-td-develop",
   "requiresAttributes": [
     {
@@ -67,7 +67,7 @@
   "requiresCompatibilities": ["EC2"],
   "networkMode": "bridge",
   "cpu": "512",
-  "revision": 13,
+  "revision": "latest",
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,

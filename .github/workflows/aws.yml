@@ -32,7 +32,7 @@ name: Deploy to Amazon ECS
 jobs:
   deploy:
     name: Deploy
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
 
     steps:
       - name: Checkout
@@ -78,3 +78,10 @@ jobs:
           service: develop-service
           cluster: develop-cluster
           wait-for-service-stability: true
+#    - name: Slack Notification
+#      uses: rtCamp/action-slack-notify@v2.0.2
+#      env:
+#        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+#        SLACK_USERNAME: action bot
+#        SLACK_TITLE: 서버 배포
+#        SLACK_MESSAGE: 서버 배포되었습니다.
