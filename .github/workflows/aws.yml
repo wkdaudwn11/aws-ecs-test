@@ -67,6 +67,9 @@ jobs:
       - run: npm install
       - run: npm run build
 
+      - run: pwd
+      - run: ls
+
       - name: Checkout
         uses: actions/checkout@v2
 
