@@ -35,6 +35,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install all of dependencies
+        run: npm install
+
+      - name: Project build
+        run: npm build
+
+      - name: test
+        run: ls
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -42,7 +51,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.ASWS_SECRET_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
       - name: Login to Amazon ECR
