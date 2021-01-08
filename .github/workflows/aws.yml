@@ -74,12 +74,11 @@ jobs:
           ECR_REGISTRY: 923518955386.dkr.ecr.ap-northeast-2.amazonaws.com
           ECR_REPOSITORY: ecr-repo-test
           IMAGE_TAG: latest
-        with:
-          path: .
         run: |
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
+          echo "{path}" >> $GITHUB_PATH
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
