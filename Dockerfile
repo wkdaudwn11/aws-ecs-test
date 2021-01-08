@@ -5,7 +5,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json /app/package.json
 COPY yarn.lock /app/yarn.lock
 RUN npm install -g yarn
-RUN yarn add --silent
+RUN yarn
 RUN yarn add react-scripts@3.4.0 -g --silent
 RUN rm -r node_modules/terser
 RUN yarn add terser@3.14.1 --save-dev
