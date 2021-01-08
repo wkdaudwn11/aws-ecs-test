@@ -32,7 +32,7 @@ name: Deploy to Amazon ECS
 jobs:
   deploy:
     name: Deploy
-    runs-on: [self-hosted, linux]
+    runs-on: linux-latest
 
     steps:
       - name: Checkout
