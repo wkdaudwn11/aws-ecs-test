@@ -22,7 +22,9 @@
 
 # Production environment
 FROM nginx:1.16.0-alpine
-COPY /home/runner/work/aws-ecs-test/build /usr/share/nginx/html
+WORKDIR /app
+COPY ./build /app/build
+COPY /app/build /usr/share/nginx/html
 # COPY ./build /usr/share/nginx/html
 RUN rm -rf /etc/nginx/conf.d
 COPY conf /etc/nginx
