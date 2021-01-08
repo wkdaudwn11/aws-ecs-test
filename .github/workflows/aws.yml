@@ -26,24 +26,33 @@
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
 
 name: Deploy to Amazon ECS
 
 jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm run build
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install all of dependencies
-        run: npm install
-
-      - name: Project build
-        run: npm build
-
-      - name: test
-        run: ls
-
       - name: Checkout
         uses: actions/checkout@v2
 
