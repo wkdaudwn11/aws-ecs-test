@@ -35,7 +35,6 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    path: .
 
     strategy:
       matrix:
@@ -53,7 +52,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    path: .
 
     steps:
       - name: Checkout
@@ -76,6 +74,8 @@ jobs:
           ECR_REGISTRY: 923518955386.dkr.ecr.ap-northeast-2.amazonaws.com
           ECR_REPOSITORY: ecr-repo-test
           IMAGE_TAG: latest
+        with:
+          path: .
         run: |
           # Build a docker container and
           # push it to ECR so that it can
