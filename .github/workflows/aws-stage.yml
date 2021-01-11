@@ -62,7 +62,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_USERNAME: ${{ github.actor }}
-          SLACK_CHANNEL: release
+          SLACK_CHANNEL: frontend-deploy-noti
         with:
           args: "{{ GITHUB_REF }}({{ GITHUB_SHA }}): ecs-test) Stage 배포에 성공했습니다."
 
@@ -71,7 +71,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_USERNAME: ${{ github.actor }}
-          SLACK_CHANNEL: release
+          SLACK_CHANNEL: frontend-deploy-noti
         with:
           args: "{{ GITHUB_REF }}({{ GITHUB_SHA }}): ecs-test) Stage 배포에 실패했습니다."
         if: failure()
