@@ -56,3 +56,22 @@ jobs:
           service: develop-service
           cluster: develop-cluster
           wait-for-service-stability: true
+
+      - name: Slack notification success
+        uses: Ilshidur/action-slack@2.1.0
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: ${{ github.actor }}
+          SLACK_CHANNEL: release
+        with:
+          args: "{{ GITHUB_REF }}({{ GITHUB_SHA }}): ecs-test) Dev 배포에 성공했습니다."
+
+      - name: Slack notification failure
+        uses: Ilshidur/action-slack@2.1.0
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: ${{ github.actor }}
+          SLACK_CHANNEL: release
+        with:
+          args: "{{ GITHUB_REF }}({{ GITHUB_SHA }}): ecs-test) Dev 배포에 실패했습니다."
+        if: failure()
