@@ -12,7 +12,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          2020-01-11 배포 테스트 #9
+          2020-01-11 배포 테스트 #10
           <br />
           환경: {process.env.REACT_APP_STAGE}
         </a>
