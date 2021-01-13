@@ -9,7 +9,7 @@ const Button = () => {
     let url = "http://localhost:4000/api/test";
 
     if (process.env.REACT_APP_STAGE !== "local") {
-      // url = ""
+      url = "http://3.34.47.166/api/test";
     }
 
     const requestData = {
