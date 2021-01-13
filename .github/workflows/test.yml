@@ -41,11 +41,11 @@ jobs:
       - name: Build
         run: yarn build:dev
 
-      - name: Echo pwd
+      - name: Show pwd
         run: pwd
 
-      - name: Echo list
-        run: list
+      - name: Show list
+        run: ls
 
   deploy:
     name: Deploy
