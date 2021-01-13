@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [release1]
+    branches: [stage-deploy1]
   pull_request:
-    branches: [release1]
+    branches: [stage-deploy1]
 
 name: Deploy to Amazon ECS
 
