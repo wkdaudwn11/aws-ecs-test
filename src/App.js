@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import Work from "./components/work/Work";
+import Work2 from "./components/work/Work2";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           환경: {process.env.REACT_APP_STAGE}
           <hr />
           <Work />
+          <Work2 />
         </a>
       </header>
     </div>
