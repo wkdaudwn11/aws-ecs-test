@@ -1,10 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Work01 from "./components/work/Work01";
-import Work02 from "./components/work/Work02";
-import Work03 from "./components/work/Work03";
-import Work04 from "./components/work/Work04";
-import Work05 from "./components/work/Work05";
+import Button from "./components/button/Button";
 
 function App() {
   return (
@@ -22,11 +18,7 @@ function App() {
           환경: {process.env.REACT_APP_STAGE}
         </a>
         <hr />
-        <Work01 />
-        <Work02 />
-        <Work03 />
-        <Work04 />
-        <Work05 />
+        <Button />
       </header>
     </div>
   );
