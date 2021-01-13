@@ -1,8 +1,9 @@
 FROM node:12.8.0 as builder
 WORKDIR /app
 
-COPY package.json .
-RUN npm install
-COPY . .
+RUN npm install yarn -g
+COPY server/package.json .
+RUN yarn install
+COPY ./server .
 
-CMD ["npm", "run", "server"]
+CMD ["yarn", "run", "server"]
