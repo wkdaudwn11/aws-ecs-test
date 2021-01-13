@@ -2,6 +2,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import Work from "./components/work/Work";
 import Work2 from "./components/work/Work2";
+import Work3 from "./components/work/Work3";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <hr />
           <Work />
           <Work2 />
+          <Work3 />
         </a>
       </header>
     </div>
