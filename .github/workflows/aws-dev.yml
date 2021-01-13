@@ -77,10 +77,12 @@ jobs:
         env:
           ECR_REGISTRY: 923518955386.dkr.ecr.ap-northeast-2.amazonaws.com
           ECR_REPOSITORY: ecr-repo-test
-          IMAGE_TAG: 1.5.0
+          IMAGE_TAG: 1.6.0
         run: |
           docker build -f Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids $(aws ecr list-images --repository-name $ECR_REPOSITORY --filter tagStatus=UNTAGGED --query 'imageIds[*]'| tr -d " \t\n\r")
         # run: |
         #   docker build -f Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         #   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
@@ -104,21 +106,21 @@ jobs:
           cluster: develop-cluster
           wait-for-service-stability: true
 
-      - name: Slack notification success
-        uses: Ilshidur/action-slack@2.1.0
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_USERNAME: ${{ github.actor }}
-          SLACK_CHANNEL: frontend-deploy-noti
-        with:
-          args: "{{ GITHUB_REF }}({{ GITHUB_SHA }}): ecs-test) Dev 배포에 성공했습니다."
+      # - name: Slack notification success
+      #   uses: Ilshidur/action-slack@2.1.0
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     SLACK_USERNAME: ${{ github.actor }}
+      #     SLACK_CHANNEL: frontend-deploy-noti
+      #   with:
+      #     args: "{{ GITHUB_REF }}({{ GITHUB_SHA }}): ecs-test) Dev 배포에 성공했습니다."
 
-      - name: Slack notification failure
-        uses: Ilshidur/action-slack@2.1.0
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_USERNAME: ${{ github.actor }}
-          SLACK_CHANNEL: frontend-deploy-noti
-        with:
-          args: "{{ GITHUB_REF }}({{ GITHUB_SHA }}): ecs-test) Dev 배포에 실패했습니다."
-        if: failure()
+      # - name: Slack notification failure
+      #   uses: Ilshidur/action-slack@2.1.0
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     SLACK_USERNAME: ${{ github.actor }}
+      #     SLACK_CHANNEL: frontend-deploy-noti
+      #   with:
+      #     args: "{{ GITHUB_REF }}({{ GITHUB_SHA }}): ecs-test) Dev 배포에 실패했습니다."
+      #   if: failure()
