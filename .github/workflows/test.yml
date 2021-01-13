@@ -42,10 +42,10 @@ jobs:
         run: yarn build:dev
 
       - name: Echo pwd
-        run: echo pwd
+        run: pwd
 
       - name: Echo list
-        run: echo list
+        run: list
 
   deploy:
     name: Deploy
@@ -72,6 +72,7 @@ jobs:
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
+        path: .
         env:
           ECR_REGISTRY: 923518955386.dkr.ecr.ap-northeast-2.amazonaws.com
           ECR_REPOSITORY: ecr-repo-test
