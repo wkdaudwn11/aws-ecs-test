@@ -1,5 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
+import Work01 from "./components/work/Work01";
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
           <br />
           환경: {process.env.REACT_APP_STAGE}
         </a>
+        <hr />
+        <Work01 />
       </header>
     </div>
   );
