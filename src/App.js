@@ -4,6 +4,7 @@ import Work01 from "./components/work/Work01";
 import Work02 from "./components/work/Work02";
 import Work03 from "./components/work/Work03";
 import Work04 from "./components/work/Work04";
+import Work05 from "./components/work/Work05";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Work02 />
         <Work03 />
         <Work04 />
+        <Work05 />
       </header>
     </div>
   );
