@@ -17,7 +17,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          2020-01-13 배포 #5 - v1.4.0
+          2020-01-13 배포 #6 - v1.5.0
           <br />
           환경: {process.env.REACT_APP_STAGE}
         </a>
