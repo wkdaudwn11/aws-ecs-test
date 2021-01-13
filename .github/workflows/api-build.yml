@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [develop2]
+    branches: [develop]
   pull_request:
-    branches: [develop2]
+    branches: [develop]
 
 name: Docker images Build and Push to Amazon ECR
 
