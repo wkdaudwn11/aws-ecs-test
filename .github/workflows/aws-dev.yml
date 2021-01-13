@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [dev-deploy]
+    branches: [dev-deploy1]
   pull_request:
-    branches: [dev-deploy]
+    branches: [dev-deploy1]
 
 name: Deploy to Amazon ECS
 
@@ -82,7 +82,6 @@ jobs:
           docker build -f Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids $(aws ecr list-images --repository-name $ECR_REPOSITORY --filter tagStatus=UNTAGGED --query 'imageIds[*]'| tr -d " \t\n\r")
         # run: |
         #   docker build -f Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         #   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
