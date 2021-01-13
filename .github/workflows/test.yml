@@ -70,6 +70,12 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Show pwd
+        run: pwd
+
+      - name: Show list
+        run: ls
+
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
