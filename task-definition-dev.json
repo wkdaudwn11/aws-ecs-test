@@ -92,7 +92,7 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "ecs-repo-test"
+      "name": "ecs-repo-test-api"
     }
   ],
   "placementConstraints": [],

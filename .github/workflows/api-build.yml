@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [develop]
+    branches: [develop2]
   pull_request:
-    branches: [develop]
+    branches: [develop2]
 
 name: Docker images Build and Push to Amazon ECR
 
@@ -30,8 +30,8 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: 923518955386.dkr.ecr.ap-northeast-2.amazonaws.com
-          ECR_REPOSITORY: front-api
-          IMAGE_TAG: latest
+          ECR_REPOSITORY: ecr-repo-test
+          IMAGE_TAG: front-api
         run: |
           docker build -f server/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
