@@ -46,7 +46,7 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "ecs-repo-test"
+      "name": "ecr-repo-test"
     },
     {
       "dnsSearchDomains": null,
@@ -92,15 +92,15 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "ecs-repo-test-api"
+      "name": "ecr-repo-test-api"
     }
   ],
   "placementConstraints": [],
   "memory": "512",
   "taskRoleArn": null,
   "compatibilities": ["EC2"],
-  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:923518955386:task-definition/ecs-td-production:latest",
-  "family": "ecs-td-production",
+  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:923518955386:task-definition/ecs-td-prod:latest",
+  "family": "ecs-td-prod",
   "requiresAttributes": [
     {
       "targetId": null,
