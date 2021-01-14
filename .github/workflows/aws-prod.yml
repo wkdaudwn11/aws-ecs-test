@@ -7,59 +7,59 @@ on:
 name: Deploy to Amazon ECS
 
 jobs:
-  # build:
-  #   name: Build
-  #   runs-on: ubuntu-latest
+  build:
+    name: Build
+    runs-on: ubuntu-latest
 
-  #   strategy:
-  #     matrix:
-  #       node-version: [12.x]
+    strategy:
+      matrix:
+        node-version: [12.x]
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-  #     - name: Install yarn
-  #       run: npm install yarn -g
+      - name: Install yarn
+        run: npm install yarn -g
 
-  #     - name: Cache node modules # node modules 캐싱
-  #       uses: actions/cache@v1
-  #       with:
-  #         path: node_modules
-  #         key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn-lock.json') }}
-  #         restore-keys: |
-  #           ${{ runner.OS }}-build-
-  #           ${{ runner.OS }}-
+      - name: Cache node modules # node modules 캐싱
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
 
-  #     - name: Install Dependencies
-  #       run: yarn install
+      - name: Install Dependencies
+        run: yarn install
 
-  #     - name: Build
-  #       run: yarn build:prod
+      - name: Build
+        run: yarn build:prod
 
-  #     - name: Archive production artifacts # upload file
-  #       uses: actions/upload-artifact@v1
-  #       with:
-  #         name: build # artifact name
-  #         path: build # upload path
+      - name: Archive production artifacts # upload file
+        uses: actions/upload-artifact@v1
+        with:
+          name: build # artifact name
+          path: build # upload path
 
   deploy:
     name: Deploy
-    # needs: build
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # - name: Download production artifacts # download file
-      #   uses: actions/download-artifact@v1
-      #   with:
-      #     name: build # artifact name
+      - name: Download production artifacts # download file
+        uses: actions/download-artifact@v1
+        with:
+          name: build # artifact name
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -68,23 +68,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      # - name: Login to Amazon ECR
-      #   id: login-ecr
-      #   uses: aws-actions/amazon-ecr-login@v1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-      # - name: Build, tag, and push image to Amazon ECR
-      #   id: build-image
-      #   env:
-      #     ECR_REGISTRY: 923518955386.dkr.ecr.ap-northeast-2.amazonaws.com
-      #     ECR_REPOSITORY: ecr-repo-test
-      #     IMAGE_TAG: 2.0.0
-      #   run: |
-      #     aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids $(aws ecr list-images --repository-name $ECR_REPOSITORY --filter tagStatus=UNTAGGED --query 'imageIds[*]'| tr -d " \t\n\r")
-      #     docker build -f Dockerfile-prod -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-      #     echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: 923518955386.dkr.ecr.ap-northeast-2.amazonaws.com
+          ECR_REPOSITORY: ecr-repo-test
+          IMAGE_TAG: 2.0.0
+        run: |
+          aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids $(aws ecr list-images --repository-name $ECR_REPOSITORY --filter tagStatus=UNTAGGED --query 'imageIds[*]'| tr -d " \t\n\r")
+          docker build -f Dockerfile-prod -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-      # aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids $(aws ecr list-images --repository-name $ECR_REPOSITORY --filter tagStatus=UNTAGGED --query 'imageIds[*]'| tr -d " \t\n\r")
+        # aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids $(aws ecr list-images --repository-name $ECR_REPOSITORY --filter tagStatus=UNTAGGED --query 'imageIds[*]'| tr -d " \t\n\r")
 
       # - name: Fill in the new image ID in the Amazon ECS task definition
       #   id: task-def
