@@ -113,7 +113,7 @@
   "requiresCompatibilities": ["EC2"],
   "networkMode": "bridge",
   "cpu": "512",
-  "revision": "2.0.0",
+  "revision": "latest",
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
