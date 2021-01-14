@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [master1]
+    branches: [master]
   pull_request:
-    branches: [master1]
+    branches: [master]
 
 name: Deploy to Amazon ECS
 
@@ -77,18 +77,20 @@ jobs:
         env:
           ECR_REGISTRY: 923518955386.dkr.ecr.ap-northeast-2.amazonaws.com
           ECR_REPOSITORY: ecr-repo-test
-          IMAGE_TAG: v1.2.0
+          IMAGE_TAG: 2.0.0
         run: |
+          aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids $(aws ecr list-images --repository-name $ECR_REPOSITORY --filter tagStatus=UNTAGGED --query 'imageIds[*]'| tr -d " \t\n\r")
           docker build -f Dockerfile-prod -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids $(aws ecr list-images --repository-name $ECR_REPOSITORY --filter tagStatus=UNTAGGED --query 'imageIds[*]'| tr -d " \t\n\r")
+
+        # aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids $(aws ecr list-images --repository-name $ECR_REPOSITORY --filter tagStatus=UNTAGGED --query 'imageIds[*]'| tr -d " \t\n\r")
 
       # - name: Fill in the new image ID in the Amazon ECS task definition
       #   id: task-def
       #   uses: aws-actions/amazon-ecs-render-task-definition@v1
       #   with:
-      #     task-definition: task-definition-prod.json
+      #     task-definition: task-definition-dev.json
       #     container-name: ecr-repo-test
       #     image: ${{ steps.build-image.outputs.image }}
 
@@ -96,26 +98,26 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           # task-definition: ${{ steps.task-def.outputs.task-definition }}
-          task-definition: task-definition-prod.json
-          service: production-service
-          cluster: production-cluster
+          task-definition: task-definition-dev.json
+          service: prod-service
+          cluster: prod-cluster
           wait-for-service-stability: true
 
-      - name: Slack notification success
-        uses: Ilshidur/action-slack@2.1.0
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_USERNAME: ${{ github.actor }}
-          SLACK_CHANNEL: frontend-deploy-noti
-        with:
-          args: "{{ GITHUB_REF }}({{ GITHUB_SHA }}): ecs-test) Prod 배포에 성공했습니다."
+      # - name: Slack notification success
+      #   uses: Ilshidur/action-slack@2.1.0
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     SLACK_USERNAME: ${{ github.actor }}
+      #     SLACK_CHANNEL: frontend-deploy-noti
+      #   with:
+      #     args: "{{ GITHUB_REF }}({{ GITHUB_SHA }}): ecs-test) Prod 배포에 성공했습니다."
 
-      - name: Slack notification failure
-        uses: Ilshidur/action-slack@2.1.0
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_USERNAME: ${{ github.actor }}
-          SLACK_CHANNEL: frontend-deploy-noti
-        with:
-          args: "{{ GITHUB_REF }}({{ GITHUB_SHA }}): ecs-test) Prod 배포에 실패했습니다."
-        if: failure()
+      # - name: Slack notification failure
+      #   uses: Ilshidur/action-slack@2.1.0
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     SLACK_USERNAME: ${{ github.actor }}
+      #     SLACK_CHANNEL: frontend-deploy-noti
+      #   with:
+      #     args: "{{ GITHUB_REF }}({{ GITHUB_SHA }}): ecs-test) Prod 배포에 실패했습니다."
+      #   if: failure()
