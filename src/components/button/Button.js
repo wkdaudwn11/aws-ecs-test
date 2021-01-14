@@ -8,8 +8,11 @@ const Button = () => {
   const handleClick = () => {
     let url = "http://localhost:4000/api/test";
 
-    if (process.env.REACT_APP_STAGE !== "local") {
-      url = "http://3.34.136.223/api/test";
+    if (process.env.REACT_APP_STAGE === "development") {
+      url = "http://13.125.235.134/api/test";
+    } else if (process.env.REACT_APP_STAGE === "production") {
+      url =
+        "http://ecs-test-prod-alb-984882187.ap-northeast-2.elb.amazonaws.com/api/test";
     }
 
     const requestData = {

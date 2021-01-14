@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [stage-deploy1]
+    branches: [deploy/stage1]
   pull_request:
-    branches: [stage-deploy1]
+    branches: [deploy/stage1]
 
 name: Deploy to Amazon ECS
 
@@ -79,7 +79,7 @@ jobs:
           ECR_REPOSITORY: ecr-repo-test
           IMAGE_TAG: v1.2.0
         run: |
-          docker build -f Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -f Dockerfile-stage -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids $(aws ecr list-images --repository-name $ECR_REPOSITORY --filter tagStatus=UNTAGGED --query 'imageIds[*]'| tr -d " \t\n\r")
